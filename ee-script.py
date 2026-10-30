@@ -7,7 +7,7 @@ lam= np.tanh(np.arcsinh(np.sqrt(Ns0)))
 g0, n=1.5, 2             
 
 def f(j, T):
-    return T**((j - 1)/2) * (T - j*(1 - T))
+    return T**((j-1)/2)*(T-j*(1-T))
 
 def entropy(p):
     p= p/p.sum(axis=0)
@@ -24,7 +24,7 @@ T1,T2= np.meshgrid(x, x)
 
 #biside
 p_bi= np.array([lam**(2*j) * f(j, T1)**2 * f(j, T2)**2 * g0**(4*j) for j in range(n + 1)])
-rE_bi= entropy(p_bi)/E_tmsv - 1
+rE_bi= entropy(p_bi)/E_tmsv-1
 
 #single side
 g= np.sqrt(T2/(1 - T2))
@@ -44,12 +44,13 @@ def heat(rE, title, ylab, fname):
     ax.tick_params(labelsize=7)
     fig.tight_layout()
     fig.savefig(fname, dpi=200)
+    plt.show()
     plt.close(fig)
 
 heat(rE_bi, 'Entanglement Enhancement for nQSBP Biside PC-TMSV',
-     r'$T_2=\cos^2\theta_2$', 'fig9EntanglementBiside.png')
-heat(rE_si, 'Entanglement Enhancement for nQSBP Single-Side PC-TMSV',
-     r'$\tau=\cos^2\theta_2$', 'fig10EntanglementSingle.png')
+     r'$T_2=\cos^2\theta_2$','fig9EntanglementBiside.png')
+heat(rE_si, 'Entanglement Enhancement for nQSBP Single-side PC-TMSV',
+     r'$\tau=\cos^2\theta_2$','fig10EntanglementSingle.png')
 
 tau0=g0**2/(1 + g0**2)
 k, kt= np.argmin(abs(x-0.2)), np.argmin(abs(x - tau0))
